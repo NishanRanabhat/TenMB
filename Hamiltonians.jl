@@ -1,6 +1,3 @@
-using LinearAlgebra
-using Kronecker
-
 """
 This file consists of the functions for different spin 1/2 hamiltonians: 
 1) Transverse field Ising
@@ -9,6 +6,9 @@ This file consists of the functions for different spin 1/2 hamiltonians:
 
 Other spin Hamiltonians can be similarly constructed.
 """
+
+using LinearAlgebra
+using Kronecker
 
 function Hamiltonian_Ising(h,N,spins::String,longdir::String)
 
