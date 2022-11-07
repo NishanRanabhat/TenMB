@@ -39,7 +39,7 @@ function svd_truncate(T,chi_max::Integer,ctf_val::Number)
         by a cutoff either based on "cut_val" or "chi_max"
 
         The svd decomposition is performed with QRiteration algorithm instead of
-        Divide and Conquer algorithm. This is more expensive but solid.
+        Divide and Conquer algorithm. This is more expensive but robust.
         """
 
     F = svd(T,alg=LinearAlgebra.QRIteration())
