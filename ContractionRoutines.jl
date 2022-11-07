@@ -105,6 +105,36 @@ function contract_left_noop(A,L,object::String)
     end
 end
 
+function contract_right_noop(B,R,object::String)
+
+   """
+        _ _ _ _                                    _ _ _ _
+    ~~~|       |                    ~~~B_i---  ---|       |
+       |       |                       |          |       |
+       |       |                                  |       |
+       |       |                       |          |       |
+       |  R_i  |         <---                  ---|R_{i+1}|
+       |       |                       |          |       |
+       |       |                                  |       |
+       |       |                       |          |       |
+    ~~~|_ _ _ _|                   ~~~B'_i---  ---|_ _ _ _|
+
+    """   
+
+    if object == "MPDO"
+
+        @tensoropt fin[-1,-2] :=  conj(B)[-1,3,4,5]*R[5,6]*B[-2,3,4,6]
+        return fin
+
+    elseif object == "MPS"
+
+        @tensoropt fin[-1,-2] :=  conj(B)[-1,3,4]*R[4,5]*B[-2,3,5]
+        return fin
+
+    end
+end
+
+
 function contract_left_nompo(A,L,W,object::String)
 
         """
@@ -113,7 +143,7 @@ function contract_left_nompo(A,L,W,object::String)
         |       |        |                |       |
         |       |                         |       |
         |       |        |                |       |
-        |L_{i-1}|---    W_i       --->    | L_{i} |
+        |L_{i-1}|       W_i       --->    | L_{i} |
         |       |        |                |       |
         |       |                         |       |
         |       |        |                |       |
@@ -129,6 +159,35 @@ function contract_left_nompo(A,L,W,object::String)
     elseif object == "MPS"
 
         @tensoropt fin[-1,-2] := conj(A)[4,3,-1]*L[4,5]*W[3,6]*A[5,6,-2]
+        return fin
+
+    end
+end
+
+function contract_right_nompo(B,R,W,object::String)
+
+        """
+         _ _ _ _                                    _ _ _ _
+     ~~~|       |                    ~~~B_i---  ---|       |
+        |       |                       |          |       |
+        |       |                                  |       |
+        |       |                       |          |       |
+        |  R_i  |         <---          W_i        |R_{i+1}|
+        |       |                       |          |       |
+        |       |                                  |       |
+        |       |                       |          |       |
+     ~~~|_ _ _ _|                   ~~~B'_i---  ---|_ _ _ _|
+
+    """
+
+    if object == "MPDO"
+
+        @tensoropt fin[-1,-2] := conj(B)[-1,3,4,5]*R[5,6]*W[3,7]*B[-2,7,8,6]
+        return fin
+
+    elseif object == "MPS"
+
+        @tensoropt fin[-1,-2] := conj(B)[-1,3,4]*R[4,5]*W[3,6]*B[-2,6,5]
         return fin
 
     end
