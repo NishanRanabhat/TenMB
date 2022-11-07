@@ -11,7 +11,6 @@
     that acts as the bath. Useful for open system simulation. The local dimension becomes
     d^2 from d.
  """
-
 using LinearAlgebra
 using Kronecker
 
