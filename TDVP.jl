@@ -1,6 +1,3 @@
-using LinearAlgebra
-using TensorOperations
-
 """
 This file consists of functions for one and two site TDVP (for both MPS and MPDO using LPTN) algorithms.
 The two seminal papers are:
@@ -10,6 +7,8 @@ The two seminal papers are:
 But the best explanation and a ready to use recipe for TDVP and several other timedependent MPS methods
 are found in https://doi.org/10.1016/j.aop.2019.167998
 """
+using LinearAlgebra
+using TensorOperations
 
 function right_sweep_TDVP_onesite(dt,M,psi,Env,Ham,N::Integer,krydim_TDVP::Integer,d::Integer,close_cutoff::Number)
 
