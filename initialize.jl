@@ -1,10 +1,10 @@
-using LinearAlgebra
-using TensorOperations
-
 """
 This file takes the initial state and initializes the system for DMRG and TDVP
 sweeps. The outputs are the canonical MPS, and the Environment tensors.
 """
+using LinearAlgebra
+using TensorOperations
+
 
 function right_normalize(psi,N)
 
