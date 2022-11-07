@@ -1,6 +1,5 @@
 module TensorMB
 
-
     """
     In this module we collect all the subsidiary functions that make the bulk of 
     this package. The current available features are:
