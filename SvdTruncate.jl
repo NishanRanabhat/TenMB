@@ -10,7 +10,6 @@ of the Singular values.
 
 The error created by these cutoffs is known as cutoff error.
 """
-
 using LinearAlgebra
 
 function cutoff_sin_val(S,ctf_val::Number)
