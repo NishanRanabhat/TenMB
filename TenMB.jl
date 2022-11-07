@@ -1,4 +1,4 @@
-module TensorMB
+module TenMB
 
     """
     In this module we collect all the subsidiary functions that make the bulk of 
