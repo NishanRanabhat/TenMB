@@ -27,8 +27,6 @@ function right_sweep_DMRG_one_site(M,psi,Env,Ham,N::Integer,krydim_DMRG::Integer
 
         eig_vec, eig_val = EigenLancz(reshape(M,(shp[1]*shp[2]*shp[3])),MpoToMpsOneSite,(Env[indx(i-1,N)],Ham[i],Env[i+1],d),krydim_DMRG,maxit,"MPS")
         
-        println(eig_val/N)
-
         QR_dec = qr(reshape(eig_vec,(shp[1]*shp[2],shp[3])))
 
         psi[i] = reshape(Matrix(QR_dec.Q),(shp[1],shp[2],:))
@@ -61,8 +59,6 @@ function left_sweep_DMRG_one_site(M,psi,Env,Ham,N::Integer,krydim_DMRG::Integer,
         shp = size(M)
 
         eig_vec, eig_val = EigenLancz(reshape(M,(shp[1]*shp[2]*shp[3])),MpoToMpsOneSite,(Env[indx(i-1,N)],Ham[i],Env[i+1],d),krydim_DMRG,maxit,"MPS")
-
-        println(eig_val/N)
 
         LQ_dec = lq(reshape(eig_vec,(shp[1],shp[2]*shp[3])))
 
@@ -101,8 +97,6 @@ function right_sweep_DMRG_two_site(M,psi,Env,Ham,N::Integer,krydim_DMRG::Integer
 
         eig_vec, eig_val = EigenLancz(reshape(T,(shp[1]*shp[2]*shp[3]*shp[4])),MpoToMpsTwoSite,(Env[indx(i-1,N)],Ham[i],Ham[i+1],Env[i+2],d),krydim_DMRG,maxit,"MPS")
         
-        println(eig_val/N)
-
         U,S,V = svd_truncate(reshape(eig_vec,(shp[1]*shp[2],shp[3]*shp[4])),chi_max,ctf_val)
 
         psi[i] = reshape(U,(shp[1],shp[2],:))
@@ -141,8 +135,6 @@ function left_sweep_DMRG_two_site(M,psi,Env,Ham,N::Integer,krydim_DMRG::Integer,
         shp = size(T)
 
         eig_vec, eig_val = EigenLancz(reshape(T,(shp[1]*shp[2]*shp[3]*shp[4])),MpoToMpsTwoSite,(Env[indx(j-2,N)],Ham[j-1],Ham[j],Env[j+1],d),krydim_DMRG,maxit,"MPS")
-
-        println(eig_val/N)
 
         U,S,V = svd_truncate( reshape(eig_vec,(shp[1]*shp[2],shp[3]*shp[4])),chi_max,ctf_val)
 

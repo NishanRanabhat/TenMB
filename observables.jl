@@ -49,6 +49,8 @@ function expect_single_site(i,psi,O,object::String)
     end
 end
 
+#Note : the inner product is calculated with this function by setting O as a (d,d) unit matrix, i.e. <psi|1|psi> = <psi||psi> 
+
 """
 Calculates subsystem expectation, <psi|SUM_{i=1:l} O_i |psi>
 """
@@ -142,4 +144,34 @@ function corr_func(j,k,psi,O,object::String)
 
         return R[1]
     end         
+end
+
+"""
+Calculates energy density of the given state (MPS or MPDO)
+"""
+function Energy_density(state,Ham,N,object::String)
+
+    """
+    state : input MPS or MPDO
+    Ham : Hamiltonian as MPO
+    N : system size
+    object : type of state
+    """
+
+    X = ones(1,1,1)
+
+    if object == "MPS"
+        for i in 1:N
+            X = contract_left(state[i],X,Ham[i],"MPS")
+        end
+
+        return reshape(X,1)[1]/N
+
+    elseif object == "MPDO"
+        for i in 1:N
+            X = contract_left(state[i],X,Ham[i],"MPDO")
+        end
+
+        return reshape(X,1)[1]/N
+    end        
 end
