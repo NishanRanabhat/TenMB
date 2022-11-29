@@ -123,7 +123,7 @@ end
 function GHZ_X(N)
 
         """
-        GHZ state with N site in Z direction.
+        GHZ state with N site in X direction.
         """
 
     psi = Array{Any,1}(undef,N);
@@ -202,7 +202,7 @@ end
 function fully_pol_liouville_X(N,spin_state::String)
 
             """
-            Fully polarized state in Liouville space with N site in Z direction.
+            Fully polarized state in Liouville space with N site in X direction.
 
             spin_state : "up" or "down"
             """
