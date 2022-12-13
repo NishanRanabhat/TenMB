@@ -1,5 +1,5 @@
 """
-    Module containing several initial spin 1/2 states that can be written as
+    File containing several initial spin 1/2 states that can be written as
     tensor products. There are three categories of it.
 
     1) MPS states in Hilbert space.
