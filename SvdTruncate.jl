@@ -13,53 +13,45 @@ The error created by these cutoffs is known as cutoff error.
 
 using LinearAlgebra
 
-function cutoff_sin_val(S,ctf_val::Number)
-
-        """
-        Cuts off a vector (with elements in descending order) "S" based on a
-        cutoff value "ctf_val". Returns the index at which the vector is cut off.
-        """
-
-    i = 1
-    while S[i] > ctf_val
-
-        if i < length(S)
-            i += 1
+function truncate(S::Array{},ctf_val::Float64)
+    
+    c = 0
+    
+    for i in 1:length(S)
+        
+        if S[i] > ctf_val
+            
+            c += 1 
         else
+            
             break
         end
     end
-    return i
+    
+    return c
 end
 
-function svd_truncate(T,chi_max::Integer,ctf_val::Number)
+function svd_truncate(T::Array{},chi_max::Int64,ctf_val::Float64)
 
-        """
-        This function performs singular value decomposition on the vector "T" followed
-        by a cutoff either based on "cut_val" or "chi_max"
+    """
+    This function performs singular value decomposition on the vector "T" followed
+     by a cutoff either based on "cut_val" or "chi_max"
 
-        The svd decomposition is performed with QRiteration algorithm instead of
-        Divide and Conquer algorithm. This is more expensive but robust.
-        """
+    The svd decomposition is performed with QRiteration algorithm instead of
+    Divide and Conquer algorithm. This is more expensive but robust.
+    """
 
     F = svd(T,alg=LinearAlgebra.QRIteration())
 
-    S = F.S
+    S = F.S/norm(F.S)
 
-    k = cutoff_sin_val(S,ctf_val)
-
-    if k < chi_max
-
-        S = S[1:k]/norm(S[1:k])
-        U = F.U[:,1:k]
-        V = F.Vt[1:k,:]
-
-    else
-
-        S = S[1:chi_max]/norm(S[1:chi_max])
-        U = F.U[:,1:chi_max]
-        V = F.Vt[1:chi_max,:]
-    end
-
+    c = truncate(S,ctf_val)
+    
+    chi_trunc = min(c,chi_max)
+    
+    S = S[1:chi_trunc]
+    U = F.U[:,1:chi_trunc]
+    V = F.Vt[1:chi_trunc,:]
+    
     return U,S,V
 end
