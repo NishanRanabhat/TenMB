@@ -113,7 +113,7 @@ function contract_right_noop(B,R,object::String)
        |       |                       |          |       |
        |       |                                  |       |
        |       |                       |          |       |
-       |  R_i  |         <---                  ---|R_{i+1}|
+       |  R_i  |         <---                     |R_{i+1}|
        |       |                       |          |       |
        |       |                                  |       |
        |       |                       |          |       |
