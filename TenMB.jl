@@ -20,7 +20,9 @@ include("Indexfix.jl")
 include("DMRG.jl")
 include("TDVP.jl")
 include("initialize.jl")
-include("observables.jl")
+include("MPSobservables.jl")
+include("iMPSobservables.jl")
+
 
 end
 
