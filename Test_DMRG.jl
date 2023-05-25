@@ -3,6 +3,10 @@ This is a file that tests our codes. We will show how to run a DMRG code with pu
 We will show the simplest case for one site DMRG algorithm.
 """
 
+#include the path to the module
+include("/path/to/module/folder/TenMB.jl")
+
+#CALL module
 using .TenMB
 
 

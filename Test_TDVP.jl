@@ -5,6 +5,10 @@ Setup: In this simplest example we will initialize our state as an fully polariz
        two site TDVP algorithm. 
 """
 
+#include the path to the module
+include("/path/to/module/folder/TenMB.jl")
+
+#CALL module
 using .TenMB
 
 
