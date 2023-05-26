@@ -40,6 +40,6 @@ num_iTEBD = 500;
 #Run iTEBD simulation
 for i in 1:num_iTEBD
     
-    inf_MPS = itebd1(inf_MPS,U,chi_max,ctf_val)
+    inf_MPS = TenMB.itebd(inf_MPS,U,chi_max,ctf_val)
 end
 
