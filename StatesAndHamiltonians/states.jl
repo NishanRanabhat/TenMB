@@ -62,13 +62,13 @@ function fully_pol_Z(N::Integer,spin_state::String)
     return psi
 end
 
-function fully_pol_X(N,spin_state::String)
+function fully_pol_X(N::Integer,spin_state::String)
 
-        """
-        Fully polarized state with N site in X direction.
+    """
+    Fully polarized state with N site in X direction.
 
-        spin_state : "up" or "down"
-        """
+    spin_state : "up" or "down"
+    """
 
     psi = Array{Any,1}(undef,N);
 
@@ -79,6 +79,40 @@ function fully_pol_X(N,spin_state::String)
     elseif spin_state == "down"
 
         A = [1/sqrt(2) -1/sqrt(2)]
+    end
+
+    A = reshape(A,(1,2,1))
+
+    for i in 1:N
+        psi[i] = A
+    end
+
+    return psi
+end
+
+function polarized_Z_to_X(N::Integer,theta::Any,spin_state::String)
+
+    """
+    Fully polarized state with N site in direction theta from Z towards X
+
+    spin_state : "up" or "down"
+    """
+
+    sX = [0 1; 1 0];  sY = [0 -im; im 0];
+    sZ = [1 0; 0 -1]; sI = [1 0; 0 1];
+
+    psi = Array{Any,1}(undef,N);
+
+    #single spin rotation operator 
+    Ry = cos(theta/2)*sI - im*sin(theta/2)*sY
+    
+    if spin_state == "up"
+
+        A = Ry*transpose([1 0])
+
+    elseif spin_state == "down"
+
+        A = Ry*transpose([0 1])
     end
 
     A = reshape(A,(1,2,1))
