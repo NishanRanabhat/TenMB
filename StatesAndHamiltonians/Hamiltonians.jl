@@ -115,7 +115,7 @@ function Hamiltonian_XXZ(h,N,spins::String)
     return Ham
 end
 
-function Hamiltonian_NNN_XXX(J,N,spins::String)
+function Hamiltonian_NNN_XXX(J1,J2,N,spins::String)
 
     """
     J : NNN interaction strength
@@ -143,13 +143,10 @@ function Hamiltonian_NNN_XXX(J,N,spins::String)
     H[4,1,:,:] = sY; H[8,4,:,:] = J1*sY; H[8,5,:,:] = J2*sY;
     H[6,1,:,:] = sZ; H[8,6,:,:] = J1*sZ; H[8,7,:,:] = J2*sZ;
 
-
-
     HL = zeros(ComplexF64,1,8,2,2)
     HL[1,:,:,:] = H[8,:,:,:]
     HR = zeros(ComplexF64,8,1,2,2)
     HR[:,1,:,:] = H[:,1,:,:]
-
 
     Ham[1] = HL
     Ham[N] = HR
