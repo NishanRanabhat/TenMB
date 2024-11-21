@@ -62,6 +62,31 @@ function fully_pol_Z(N::Integer,spin_state::String)
     return psi
 end
 
+function neel_Z(N::Integer)
+
+    """
+    neel state with N site in Z direction.
+    """
+
+    psi = Array{Any,1}(undef,N);
+
+    A_up = [1 0];
+    A_down = [0 1];
+
+    A_up = reshape(A_up,(1,2,1))
+    A_down = reshape(A_down,(1,2,1))
+
+    for i in 1:N
+        if mod(i, 2) == 0
+            psi[i] = A_up
+        else
+            psi[i] = A_down
+        end
+    end
+
+    return psi
+end
+
 function fully_pol_X(N,spin_state::String)
 
         """
@@ -85,6 +110,31 @@ function fully_pol_X(N,spin_state::String)
 
     for i in 1:N
         psi[i] = A
+    end
+
+    return psi
+end
+
+function neel_X(N::Integer)
+
+    """
+    neel state with N site in X direction.
+    """
+
+    psi = Array{Any,1}(undef,N);
+
+    A_up = [1/sqrt(2) 1/sqrt(2)];
+    A_down = [1/sqrt(2) -1/sqrt(2)];
+
+    A_up = reshape(A_up,(1,2,1))
+    A_down = reshape(A_down,(1,2,1))
+
+    for i in 1:N
+        if mod(i, 2) == 0
+            psi[i] = A_up
+        else
+            psi[i] = A_down
+        end
     end
 
     return psi

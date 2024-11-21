@@ -88,7 +88,7 @@ function Hamiltonian_XXZ(h,N,spins::String)
     end
 
 
-    Ham = Array{Array{Complex64,4},1}(undef,N)
+    Ham = Array{Array{ComplexF64,4},1}(undef,N)
 
     H = zeros(ComplexF64,5,5,2,2)
 
@@ -104,6 +104,49 @@ function Hamiltonian_XXZ(h,N,spins::String)
     HR = zeros(ComplexF64,5,1,2,2)
     HR[:,1,:,:] = H[:,1,:,:]
 
+
+    Ham[1] = HL
+    Ham[N] = HR
+
+    @inbounds for i in 2:N-1
+        Ham[i] = H
+    end
+
+    return Ham
+end
+
+function Hamiltonian_NNN_XXX(J1,J2,N,spins::String)
+
+    """
+    J : NNN interaction strength
+    N : system size
+    spins : "Pauli" if Pauli matrices are used
+    """
+
+    if spins == "Pauli"
+
+        sX = [0 1; 1 0];  sY = [0 -im; im 0];
+        sZ = [1 0; 0 -1]; sI = [1 0; 0 1];
+
+    elseif spins == "Onehalf"
+
+        sX = 0.5*[0 1; 1 0]; sY = 0.5*[0 -im; im 0];
+        sZ = 0.5*[1 0; 0 -1]; sI = [1 0; 0 1];
+    end
+
+    Ham = Array{Array{ComplexF64,4},1}(undef,N)
+
+    H = zeros(ComplexF64,8,8,2,2)
+
+    H[1,1,:,:] = sI; H[8,8,:,:] = sI; H[3,2,:,:] = sI; H[5,4,:,:] = sI; H[7,6,:,:] = sI;
+    H[2,1,:,:] = sX; H[8,2,:,:] = J1*sX; H[8,3,:,:] = J2*sX;
+    H[4,1,:,:] = sY; H[8,4,:,:] = J1*sY; H[8,5,:,:] = J2*sY;
+    H[6,1,:,:] = sZ; H[8,6,:,:] = J1*sZ; H[8,7,:,:] = J2*sZ;
+
+    HL = zeros(ComplexF64,1,8,2,2)
+    HL[1,:,:,:] = H[8,:,:,:]
+    HR = zeros(ComplexF64,8,1,2,2)
+    HR[:,1,:,:] = H[:,1,:,:]
 
     Ham[1] = HL
     Ham[N] = HR
