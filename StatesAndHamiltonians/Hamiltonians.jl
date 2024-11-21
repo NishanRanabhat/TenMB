@@ -88,7 +88,7 @@ function Hamiltonian_XXZ(h,N,spins::String)
     end
 
 
-    Ham = Array{Array{Complex64,4},1}(undef,N)
+    Ham = Array{Array{ComplexF64,4},1}(undef,N)
 
     H = zeros(ComplexF64,5,5,2,2)
 
@@ -134,7 +134,7 @@ function Hamiltonian_NNN_XXX(J1,J2,N,spins::String)
         sZ = 0.5*[1 0; 0 -1]; sI = [1 0; 0 1];
     end
 
-    Ham = Array{Array{Complex64,4},1}(undef,N)
+    Ham = Array{Array{ComplexF64,4},1}(undef,N)
 
     H = zeros(ComplexF64,8,8,2,2)
 

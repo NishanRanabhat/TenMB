@@ -19,7 +19,7 @@ function operator_list(d = 2;operator::Matrix{},order::String,evol_type::String,
 
         coeff = im
 
-    elseif evol_type = "imaginary"
+    elseif evol_type == "imaginary"
 
         coeff = 1.0
     end
