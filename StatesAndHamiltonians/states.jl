@@ -62,13 +62,38 @@ function fully_pol_Z(N::Integer,spin_state::String)
     return psi
 end
 
-function fully_pol_X(N::Integer,spin_state::String)
+function neel_Z(N::Integer)
 
     """
-    Fully polarized state with N site in X direction.
-
-    spin_state : "up" or "down"
+    neel state with N site in Z direction.
     """
+
+    psi = Array{Any,1}(undef,N);
+
+    A_up = [1 0];
+    A_down = [0 1];
+
+    A_up = reshape(A_up,(1,2,1))
+    A_down = reshape(A_down,(1,2,1))
+
+    for i in 1:N
+        if mod(i, 2) == 0
+            psi[i] = A_up
+        else
+            psi[i] = A_down
+        end
+    end
+
+    return psi
+end
+
+function fully_pol_X(N,spin_state::String)
+
+        """
+        Fully polarized state with N site in X direction.
+
+        spin_state : "up" or "down"
+        """
 
     psi = Array{Any,1}(undef,N);
 
@@ -90,35 +115,59 @@ function fully_pol_X(N::Integer,spin_state::String)
     return psi
 end
 
-function polarized_Z_to_X(N::Integer,theta::Any,spin_state::String)
+function neel_X(N::Integer)
 
     """
-    Fully polarized state with N site in direction theta from Z towards X
+    neel state with N site in X direction.
+    """
 
-    spin_state : "up" or "down"
+    psi = Array{Any,1}(undef,N);
+
+    A_up = [1/sqrt(2) 1/sqrt(2)];
+    A_down = [1/sqrt(2) -1/sqrt(2)];
+
+    A_up = reshape(A_up,(1,2,1))
+    A_down = reshape(A_down,(1,2,1))
+
+    for i in 1:N
+        if mod(i, 2) == 0
+            psi[i] = A_up
+        else
+            psi[i] = A_down
+        end
+    end
+
+    return psi
+end
+
+function rotation_Y(theta::Any)
+
+    sX = [0 1; 1 0];  sY = [0 -im; im 0];
+    sZ = [1 0; 0 -1]; sI = [1 0; 0 1];
+        
+    return cos(theta/2)*sI - im*sin(theta/2)*sY
+end
+
+function Neel_Z_to_X(N::Integer,theta::Any)
+
+    """
+    Neel state with N site in direction theta from Z towards X
     """
 
     sX = [0 1; 1 0];  sY = [0 -im; im 0];
     sZ = [1 0; 0 -1]; sI = [1 0; 0 1];
 
     psi = Array{Any,1}(undef,N);
-
-    #single spin rotation operator 
-    Ry = cos(theta/2)*sI - im*sin(theta/2)*sY
     
-    if spin_state == "up"
-
-        A = Ry*transpose([1 0])
-
-    elseif spin_state == "down"
-
-        A = Ry*transpose([0 1])
-    end
-
-    A = reshape(A,(1,2,1))
+    Aup = reshape(rotation_Y(theta)*transpose([1 0]),(1,2,1))
+    Adown = reshape(rotation_Y(-theta)*transpose([0 1]),(1,2,1))
 
     for i in 1:N
-        psi[i] = A
+        if i%2 == 1
+            psi[i] = Aup
+        else
+            psi[i] = Adown
+        end
     end
 
     return psi
