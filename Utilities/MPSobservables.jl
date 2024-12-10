@@ -175,3 +175,42 @@ function Energy_density(state,Ham,N,object::String)
         return reshape(X,1)[1]/N
     end        
 end
+
+"""
+Calculates subsystem expectation of the form <psi|PROD_{i=1:l} O_i |psi>
+Here we have assumed few things:
+1) O_i is independent of i, i.e. same operator at every sites of subsystem, can be modified to take list of operators
+2) The state psi 
+"""
+
+function product_opt_updated(N,l,psi,theta,O,object::String)
+
+    k = trunc(Int,N/2) - trunc(Int,l/2)
+
+    siz = size(psi[k+l+1])[1]
+    
+    R = Matrix{Float64}(I,siz,siz)
+
+    if object == "MPS"
+        
+        @inbounds for i in reverse(k+1:k+l)
+            R = contract_right_nompo(psi[i],R,O,"MPS")
+        end
+    
+        @inbounds for i in reverse(1:k)
+            R = contract_right_noop(psi[i],R,"MPS")
+        end
+
+    elseif object == "MPDO"
+
+        @inbounds for i in reverse(k+1:k+l)
+            R = contract_right_nompo(psi[i],R,O,"MPDO")
+        end
+    
+        @inbounds for i in reverse(1:k)
+            R = contract_right_noop(psi[i],R,"MPDO")
+        end
+
+    return reshape(R,1)[1]
+end
+
